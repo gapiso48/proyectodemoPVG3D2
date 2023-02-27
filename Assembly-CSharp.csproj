@@ -65,6 +65,10 @@
     <Compile Include="Assets\StarterAssets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\shooter.cs" />
     <Compile Include="Assets\Scripts\moving.cs" />
+    <Compile Include="Assets\Scripts\enemy.cs" />
+    <Compile Include="Assets\Scripts\toweradmin.cs" />
+    <Compile Include="Assets\Scripts\tower.cs" />
+    <Compile Include="Assets\Scripts\bala.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\StarterAssets\Environment\Shaders\Built-in_RP\Triplanar.shader" />
