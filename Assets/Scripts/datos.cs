@@ -15,7 +15,12 @@ public class DataJSON : System.Object
     public string nombre_jugador;
     [SerializeField]
     public bool activo;
-    
+    [SerializeField]
+    private int puntos;
+    [SerializeField]
+    public int r,g,b;
+
+
     public DataJSON()
     {
     }
@@ -37,4 +42,9 @@ public class DataJSON : System.Object
         this.id = id;
     }
 
+    public Color32 updateColor()
+    {
+        Color32 color = new Color32((byte) r,(byte) g,(byte) b,255);
+        return color;
+    }
 }
