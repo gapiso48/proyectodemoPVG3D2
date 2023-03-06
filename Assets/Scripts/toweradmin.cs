@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AI;
+
+using System.IO;
 
 public class toweradmin : MonoBehaviour
 {
@@ -12,9 +13,22 @@ public class toweradmin : MonoBehaviour
     public GameObject enemigo;
     public GameObject enemigoGrupo;
     public GameObject puntoInicio;
+    public DataJSON misDatos;
     // Start is called before the first frame update
     void Start()
     {
+        string filePat = Application.streamingAssetsPath + "/" + "data1.json";
+
+        if (File.Exists(filePat))
+        {
+           string s = File.ReadAllText(filePat);
+            misDatos = JsonUtility.FromJson<DataJSON>(s);
+            Debug.Log(misDatos.nombre_juego);
+            misDatos.nombre_jugador = "Jugador 2";
+            s = JsonUtility.ToJson(misDatos, true);
+            Debug.Log(s);
+            File.WriteAllText(filePat,s);
+        }
         enemigo.GetComponent<enemy>().enabled = false;
     }
 
