@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using System.IO;
+using UnityEngine.InputSystem;
 
 public class toweradmin : MonoBehaviour
 {
@@ -14,8 +15,7 @@ public class toweradmin : MonoBehaviour
     public GameObject enemigoGrupo;
     public GameObject puntoInicio;
     public DataJSON misDatos;
-    public Text t_nombreJugador;
-    public InputField i_nombreNuevo;
+    public Vector2 movimiento;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,19 +23,13 @@ public class toweradmin : MonoBehaviour
 
         if (File.Exists(filePat))
         {
-            string s = File.ReadAllText(filePat);
+           string s = File.ReadAllText(filePat);
             misDatos = JsonUtility.FromJson<DataJSON>(s);
-            t_nombreJugador.text = misDatos.nombre_jugador;
-            Color32 col = misDatos.updateColor();
-            enemigo.GetComponent<MeshRenderer>().materials[0].color = col;
-        }
-        else
-        {
-            misDatos = new DataJSON(10, "Nuevo juego", "Random", true);
-            string s = JsonUtility.ToJson(misDatos, true);
-            //Debug.Log(s);
-            File.WriteAllText(filePat, s);
-            t_nombreJugador.text = misDatos.nombre_jugador;
+            Debug.Log(misDatos.nombre_juego);
+            misDatos.nombre_jugador = "Jugador 2";
+            s = JsonUtility.ToJson(misDatos, true);
+            Debug.Log(s);
+            File.WriteAllText(filePat,s);
         }
         enemigo.GetComponent<enemy>().enabled = false;
     }
@@ -65,6 +59,10 @@ public class toweradmin : MonoBehaviour
         {
             estado = 2;
         }
+        var step = 1 * Time.deltaTime; // calculate distance to move
+        Vector3 pos = new Vector3(movimiento.x, 0, movimiento.y) + GameObject.Find("GameObject").transform.position;
+        GameObject.Find("GameObject").transform.position = Vector3.MoveTowards(GameObject.Find("GameObject").transform.position, pos, step);
+
     }
 
     private void spawn()
@@ -82,11 +80,18 @@ public class toweradmin : MonoBehaviour
         puntos = puntos + score;
         textoPuntos.text = puntos.ToString();
     }
-    public void changeName()
+    public void fuego(InputAction.CallbackContext context)
     {
-        misDatos.nombre_jugador = i_nombreNuevo.text;
-        string filePat = Application.streamingAssetsPath + "/" + "data1.json";
-        string s = JsonUtility.ToJson(misDatos, true);
-        File.WriteAllText(filePat, s);
+        //Debug.Log("Presionó fuego " + context.control.displayName);
+        if (context.phase == InputActionPhase.Started)
+        Debug.Log("Hizo click " + " " + context.phase.ToString()+ " - " + context.ReadValueAsButton().ToString() + " " + context.action.type.ToString());
+    }
+    public void mueve(InputAction.CallbackContext context)
+    {
+        if (context.action.ReadValue<Vector2>().magnitude > 0.5f)
+        {
+            Debug.Log("Se movio " + context.action.ReadValue<Vector2>().x + " " + context.action.ReadValue<Vector2>().y);
+            movimiento = context.action.ReadValue<Vector2>();
+        }
     }
 }
