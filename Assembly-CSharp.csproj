@@ -58,6 +58,7 @@
     <Compile Include="Assets\Scripts\toweradmin.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
+    <Compile Include="Assets\2703\GameManager.cs" />
     <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="Assets\Scripts\moving.cs" />
     <Compile Include="Assets\2703\mueve.cs" />
     <Compile Include="Assets\2703\uimethods.cs" />
-    <Compile Include="Assets\2703\GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\2703\TextMesh Pro\Shaders\TMPro.cginc" />

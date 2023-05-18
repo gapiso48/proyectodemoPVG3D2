@@ -21,6 +21,7 @@ public class toweradmin : MonoBehaviour
     {
         string filePat = Application.streamingAssetsPath + "/" + "data1.json";
 
+        locationStart();
         if (File.Exists(filePat))
         {
            string s = File.ReadAllText(filePat);
@@ -32,6 +33,8 @@ public class toweradmin : MonoBehaviour
             File.WriteAllText(filePat,s);
         }
         enemigo.GetComponent<enemy>().enabled = false;
+
+
     }
 
     // Update is called once per frame
@@ -40,6 +43,14 @@ public class toweradmin : MonoBehaviour
         switch (estado)
         {
             case 0: //reposo
+                Debug.Log(Input.location.status);
+                if (Input.location.status == LocationServiceStatus.Running)
+                {
+                    float latitude = Input.location.lastData.latitude;
+                    float longitude = Input.location.lastData.longitude;
+                    float altitude = Input.location.lastData.altitude;
+                    Debug.Log($"Latitude: {latitude}, Longitude: {longitude}, Altitude: {altitude}");
+                }
                 break;
             case 1: //reposo
                 spawn();
@@ -93,5 +104,28 @@ public class toweradmin : MonoBehaviour
             Debug.Log("Se movio " + context.action.ReadValue<Vector2>().x + " " + context.action.ReadValue<Vector2>().y);
             movimiento = context.action.ReadValue<Vector2>();
         }
+    }
+
+
+    IEnumerator locationStart()
+    {
+        // Start location services
+        Input.location.Start();
+
+        // Wait for location services to initialize
+        while (Input.location.status == LocationServiceStatus.Initializing)
+            yield return new WaitForSeconds(1);
+
+        // Get the device's location
+        if (Input.location.status == LocationServiceStatus.Running)
+        {
+            float latitude = Input.location.lastData.latitude;
+            float longitude = Input.location.lastData.longitude;
+            float altitude = Input.location.lastData.altitude;
+            Debug.Log($"Latitude: {latitude}, Longitude: {longitude}, Altitude: {altitude}");
+        }
+
+        // Stop location services
+        //Input.location.Stop();
     }
 }
